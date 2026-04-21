@@ -19,7 +19,7 @@ const services = [
   "ODOO ERP",
   "Pharma / Supply Chain AI",
   "Food & Beverage Automation",
-  "Dashboards & Analytics",
+  "Industrial Automation",
   "Not sure yet",
 ];
 
