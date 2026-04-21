@@ -2,26 +2,365 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ═══════════════════════════════════════════════════════════════════
+   CSS CUSTOM PROPERTIES — light & dark
+═══════════════════════════════════════════════════════════════════ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Light mode defaults */
+  --bg:           #F4F4F6;
+  --bg-surface:   #FFFFFF;
+  --bg-alt:       #EAEAEF;
+  --bg-raised:    #F9F9FB;
+  --border:       rgba(0, 0, 0, 0.08);
+  --border-strong:rgba(0, 0, 0, 0.14);
+  --text-1:       #09090B;
+  --text-2:       #52525B;
+  --text-3:       #A1A1AA;
+  --text-4:       #C4C4CC;
+  --accent:       #0066FF;
+  --accent-hover: #0052CC;
+  --accent-glow:  rgba(0, 102, 255, 0.25);
+  --shadow-card:  0 1px 3px rgba(0,0,0,0.08), 0 4px 16px rgba(0,0,0,0.06);
+  --shadow-card-hover: 0 4px 24px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+.dark {
+  --bg:           #09090B;
+  --bg-surface:   #111113;
+  --bg-alt:       #0D0D0F;
+  --bg-raised:    #18181B;
+  --border:       rgba(255, 255, 255, 0.08);
+  --border-strong:rgba(255, 255, 255, 0.14);
+  --text-1:       #FFFFFF;
+  --text-2:       #A1A1AA;
+  --text-3:       #71717A;
+  --text-4:       #52525B;
+  --accent:       #0066FF;
+  --accent-hover: #0052CC;
+  --accent-glow:  rgba(0, 102, 255, 0.3);
+  --shadow-card:  0 0 0 1px rgba(255,255,255,0.07), 0 4px 24px rgba(0,0,0,0.4);
+  --shadow-card-hover: 0 0 0 1px rgba(255,255,255,0.12), 0 8px 40px rgba(0,0,0,0.6);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   BASE
+═══════════════════════════════════════════════════════════════════ */
+@layer base {
+  * { box-sizing: border-box; }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    background-color: var(--bg);
+    color: var(--text-1);
+    font-family: var(--font-geist-sans), Inter, system-ui, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: background-color 0.25s ease, color 0.25s ease;
+  }
+
+  ::selection {
+    background-color: rgba(0, 102, 255, 0.2);
+    color: var(--text-1);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 4px;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
-}
-
+/* ═══════════════════════════════════════════════════════════════════
+   SEMANTIC UTILITY CLASSES
+═══════════════════════════════════════════════════════════════════ */
 @layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  .text-balance { text-wrap: balance; }
+
+  /* ── Text colours ───────────── */
+  .text-primary   { color: var(--text-1); }
+  .text-secondary { color: var(--text-2); }
+  .text-muted     { color: var(--text-3); }
+  .text-faint     { color: var(--text-4); }
+
+  /* ── Background colours ─────── */
+  .bg-page    { background-color: var(--bg); }
+  .bg-surface { background-color: var(--bg-surface); }
+  .bg-alt     { background-color: var(--bg-alt); }
+  .bg-raised  { background-color: var(--bg-raised); }
+
+  /* ── Borders ────────────────── */
+  .border-theme        { border-color: var(--border); }
+  .border-theme-strong { border-color: var(--border-strong); }
+
+  /* ── Cards ──────────────────── */
+  .card {
+    background-color: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    box-shadow: var(--shadow-card);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
   }
+  .card:hover {
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-3px);
+  }
+  .card-dark {
+    background-color: var(--bg-alt);
+    border: 1px solid var(--border);
+    border-radius: 24px;
+    box-shadow: var(--shadow-card);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+  }
+  .card-dark:hover {
+    border-color: var(--border-strong);
+    box-shadow: var(--shadow-card-hover);
+    transform: translateY(-3px);
+  }
+  .card-accent {
+    background: linear-gradient(135deg, rgba(0,102,255,0.08) 0%, rgba(0,102,255,0.02) 100%);
+    border: 1px solid rgba(0,102,255,0.2);
+    border-radius: 24px;
+  }
+
+  /* ── Buttons ────────────────── */
+  .btn-primary {
+    background-color: var(--accent);
+    color: #fff;
+    border-radius: 10px;
+    font-weight: 600;
+    transition: background-color 0.15s, box-shadow 0.2s, transform 0.15s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .btn-primary:hover {
+    background-color: var(--accent-hover);
+    box-shadow: 0 0 24px var(--accent-glow), 0 0 48px rgba(0,102,255,0.1);
+    transform: translateY(-1px);
+  }
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-outline {
+    background-color: transparent;
+    color: var(--text-1);
+    border: 1px solid var(--border-strong);
+    border-radius: 10px;
+    font-weight: 600;
+    transition: border-color 0.2s, background-color 0.2s, transform 0.15s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .btn-outline:hover {
+    border-color: var(--accent);
+    background-color: rgba(0,102,255,0.05);
+    transform: translateY(-1px);
+  }
+
+  /* ── Section spacing ─────────── */
+  .section-spacing       { padding-top: 120px; padding-bottom: 120px; }
+  @media (max-width: 768px) {
+    .section-spacing     { padding-top: 80px;  padding-bottom: 80px; }
+  }
+
+  /* ── Gradient text ───────────── */
+  .gradient-text {
+    background: linear-gradient(135deg, var(--text-1) 0%, var(--text-2) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .gradient-text-blue {
+    background: linear-gradient(135deg, #60A5FA 0%, #0066FF 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ── Hero glow ───────────────── */
+  .hero-glow {
+    background: radial-gradient(ellipse 70% 40% at 50% -5%, rgba(0,102,255,0.15) 0%, transparent 70%);
+  }
+
+  /* ── Grain overlay ───────────── */
+  .grain-overlay { position: relative; }
+  .grain-overlay::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.018;
+    mix-blend-mode: overlay;
+  }
+
+  /* ── Scrollbar ───────────────── */
+  ::-webkit-scrollbar        { width: 5px; }
+  ::-webkit-scrollbar-track  { background: var(--bg); }
+  ::-webkit-scrollbar-thumb  { background: var(--border-strong); border-radius: 3px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════════════════════════════════ */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee 35s linear infinite;
+}
+.marquee-track:hover { animation-play-state: paused; }
+
+@keyframes marquee {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes float-blob {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  33%       { transform: translate(30px, -20px) scale(1.04); }
+  66%       { transform: translate(-20px, 15px) scale(0.97); }
+}
+@keyframes float-blob-slow {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%       { transform: translate(-40px, 25px) scale(1.05); }
+}
+.blob-float      { animation: float-blob 12s ease-in-out infinite; }
+.blob-float-slow { animation: float-blob-slow 18s ease-in-out infinite; }
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes ping {
+  75%, 100% { transform: scale(2); opacity: 0; }
+}
+.animate-ping { animation: ping 1.5s cubic-bezier(0,0,0.2,1) infinite; }
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.animate-spin { animation: spin 1s linear infinite; }
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+.blink { animation: blink 1.1s step-end infinite; }
+
+/* ═══════════════════════════════════════════════════════════════════
+   LOGO COLOUR FILTERS
+   Light mode → accent blue (#0066FF)
+   Dark  mode → white
+═══════════════════════════════════════════════════════════════════ */
+.logo-themed {
+  filter: brightness(0) saturate(100%) invert(26%) sepia(97%) saturate(2476%) hue-rotate(209deg) brightness(103%) contrast(101%);
+}
+.dark .logo-themed {
+  filter: brightness(0) invert(1);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   LIGHT MODE — comprehensive component overrides
+═══════════════════════════════════════════════════════════════════ */
+
+/* ── Text colours ─────────────────────────────────────────────────
+   Map every hardcoded white/dark text class to a CSS variable so
+   text is always readable on the current background.              */
+:root:not(.dark) .text-white,
+:root:not(.dark) [class~="text-white"]                { color: var(--text-1)  !important; }
+
+:root:not(.dark) [class*="text-[#D4D4"]               { color: var(--text-1)  !important; }
+:root:not(.dark) [class*="text-[#C4C4"]               { color: var(--text-1)  !important; }
+:root:not(.dark) [class*="text-[#A1A1"]               { color: var(--text-2)  !important; }
+:root:not(.dark) [class*="text-[#71717"]               { color: var(--text-2)  !important; }
+:root:not(.dark) [class*="text-[#52525"]               { color: var(--text-3)  !important; }
+:root:not(.dark) [class*="text-[#3F3F"]                { color: var(--text-4)  !important; }
+
+/* Font-mono terminal text */
+:root:not(.dark) .font-mono                            { color: var(--text-2)  !important; }
+
+/* ── Border colours ───────────────────────────────────────────────
+   White-alpha borders are invisible on light backgrounds.         */
+:root:not(.dark) [class*="border-white"]               { border-color: var(--border) !important; }
+
+/* ── Subtle white background overlays ────────────────────────────
+   bg-white/[0.0x] used for nav pills, badges, hover states.      */
+:root:not(.dark) [class*="bg-white/"]                  { background-color: rgba(0,0,0,0.04) !important; }
+
+/* ── Dark hardcoded backgrounds still leaking through ────────────
+   Catch any remaining Tailwind arbitrary bg values.               */
+:root:not(.dark) [class*="bg-[#09090"]                 { background-color: var(--bg)         !important; }
+:root:not(.dark) [class*="bg-[#111"]                   { background-color: var(--bg-surface) !important; }
+:root:not(.dark) [class*="bg-[#0D0D"]                  { background-color: var(--bg-alt)     !important; }
+:root:not(.dark) [class*="bg-[#0A0A"]                  { background-color: var(--bg-alt)     !important; }
+:root:not(.dark) [class*="bg-[#0A1"]                   { background-color: rgba(0,102,255,0.04) !important; }
+:root:not(.dark) [class*="bg-[#050"]                   { background-color: var(--bg)         !important; }
+
+/* ── Inputs, selects, textareas ──────────────────────────────────*/
+:root:not(.dark) input,
+:root:not(.dark) textarea,
+:root:not(.dark) select                                {
+  background-color: var(--bg-surface) !important;
+  color: var(--text-1)                !important;
+  border-color: var(--border)         !important;
+}
+:root:not(.dark) input::placeholder,
+:root:not(.dark) textarea::placeholder                 { color: var(--text-3) !important; }
+
+/* ── Separator / divider lines ───────────────────────────────────*/
+:root:not(.dark) [class*="divide-white"]               { border-color: var(--border) !important; }
+
+/* ── Shadow — dark shadows look wrong on light bg ────────────────*/
+:root:not(.dark) .card,
+:root:not(.dark) .card-dark                            {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 4px 16px rgba(0,0,0,0.05) !important;
+}
+
+/* ── Gradient text — keep readable on light bg ───────────────────*/
+:root:not(.dark) .gradient-text {
+  background: linear-gradient(135deg, #09090B 0%, #52525B 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Hero agent mockup — terminal text ───────────────────────────*/
+:root:not(.dark) .agent-line-system { color: var(--text-3) !important; }
+:root:not(.dark) .agent-line-step   { color: var(--text-2) !important; }
+
+/* ── Marquee logo text ───────────────────────────────────────────*/
+:root:not(.dark) .marquee-track [class*="text-[#52"]   { color: var(--text-3) !important; }
+:root:not(.dark) .marquee-track [class*="text-[#3F"]   { color: var(--text-3) !important; }
+
+/* ── Hover states — prevent white-on-white ───────────────────────*/
+:root:not(.dark) [class*="hover:text-white"]:hover      { color: var(--text-1) !important; }
+:root:not(.dark) .group:hover [class*="group-hover:text-white"] { color: var(--text-1) !important; }
+:root:not(.dark) [class*="hover:border-white"]:hover    { border-color: var(--border-strong) !important; }
+
+/* ── Tailwind Typography prose-invert ────────────────────────────*/
+:root:not(.dark) .prose-invert {
+  --tw-prose-body:          var(--text-2);
+  --tw-prose-headings:      var(--text-1);
+  --tw-prose-links:         var(--accent);
+  --tw-prose-bold:          var(--text-1);
+  --tw-prose-counters:      var(--text-2);
+  --tw-prose-bullets:       var(--text-2);
+  --tw-prose-hr:            var(--border);
+  --tw-prose-quotes:        var(--text-2);
+  --tw-prose-quote-borders: var(--border);
+  --tw-prose-code:          var(--text-1);
+  --tw-prose-pre-bg:        var(--bg-alt);
 }
